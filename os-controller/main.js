@@ -4,20 +4,20 @@ const { app, BrowserWindow, screen } = require('electron')
 const path = require('path')
 
 const { TitanCore } = require('titan-core');
-//const { GetWindow, SetDisplayData, Snap } = require('./utils/window-controller');
-const ioHook = require('iohook');
+const windowController = require('./components/window-controller');
 
 var titanCore = new TitanCore();
 var console = titanCore.console;
 
 
+
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        x: 0,
-        y: 500,
-        width: 500,
-        height: 500,
+        x: -9999,
+        y: -9999,
+        width: 0,
+        height: 0,
         title: "Zone Control",
         frame: false,
         alwaysOnTop: true,
@@ -41,6 +41,8 @@ const createWindow = () => {
 app.whenReady().then(() => {
     createWindow()
 
+    windowController.init(titanCore.console);
+
     app.on('activate', () => {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
@@ -57,6 +59,11 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+
+
+
+
 
 
 console.logProcessComplete('OS Controller Loaded');
