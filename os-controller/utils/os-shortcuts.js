@@ -1,5 +1,4 @@
 const ioHook = require('iohook');
-exports.console = null;
 exports.debug = false;
 let ids = new Array();
 
@@ -19,16 +18,15 @@ exports.setShortcut = (shortcutArray, callback, callbackParam) => {
         });
         keyNames += "]";
 
-        this.console.log('Shortcut called with keys:', keys, keyNames);
+        console.log('Shortcut called with keys:', keys, keyNames);
 
         callback(callbackParam);
 
       }));
 }
 
-exports.init = (console, debug=false) => {
+exports.init = (debug=false) => {
     this.debug = debug;
-    this.console = console;
 
     if(debug) {
         ioHook.on('keydown', (event) => {
@@ -47,7 +45,7 @@ exports.init = (console, debug=false) => {
     // False to disable DEBUG. Cleaner terminal output.
     ioHook.start(false);
     
-    console.logProcessComplete("OS Shortcuts Initialized.");
+    console.log("OS Shortcuts Initialized.");
 }
 
 

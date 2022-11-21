@@ -2,7 +2,6 @@ const spawn = require('child_process').spawn
 const {Window, WindowStates, SWP, AncestorFlags, HWND} = require('win-control');
 const { screen } = require('electron')
 const osShortcuts = require('../utils/os-shortcuts');
-exports.console = null;
 exports.displayData = new Array();
 const debug = false;
 
@@ -82,10 +81,10 @@ const WhichDisplay = (x,y) => {
 
         let scaledWorkArea = this.GetScaledWorkArea(display.workArea, display.scaleFactor);
 
-        this.console.log(scaledWorkArea);
+        console.log(scaledWorkArea);
 
-        this.console.log(displayId, "window.x:"+x, "display.x:"+scaledWorkArea.x, "display.end:"+(scaledWorkArea.x+scaledWorkArea.width), (x >= scaledWorkArea.x && x <= parseInt(scaledWorkArea.x)+parseInt(scaledWorkArea.width))?'true':'false');
-        this.console.log(displayId, "window.x:"+y, "display.x:"+scaledWorkArea.y, "display.end:"+(scaledWorkArea.y+scaledWorkArea.height), (y >= scaledWorkArea.y && y <= parseInt(scaledWorkArea.y)+parseInt(scaledWorkArea.height))?'true':'false');
+        console.log(displayId, "window.x:"+x, "display.x:"+scaledWorkArea.x, "display.end:"+(scaledWorkArea.x+scaledWorkArea.width), (x >= scaledWorkArea.x && x <= parseInt(scaledWorkArea.x)+parseInt(scaledWorkArea.width))?'true':'false');
+        console.log(displayId, "window.x:"+y, "display.x:"+scaledWorkArea.y, "display.end:"+(scaledWorkArea.y+scaledWorkArea.height), (y >= scaledWorkArea.y && y <= parseInt(scaledWorkArea.y)+parseInt(scaledWorkArea.height))?'true':'false');
 
 
         if (x >= scaledWorkArea.x && x <= (scaledWorkArea.x+scaledWorkArea.width) &&
@@ -105,7 +104,7 @@ const WhichDisplay = (x,y) => {
 }
 
 exports.snap = (direction) => {
-    this.console.log("Snapping => " + direction);
+    console.log("Snapping => " + direction);
 
     GetDisplayData();
 
@@ -117,9 +116,9 @@ exports.snap = (direction) => {
         width : dimensions.right - dimensions.left,
         height : dimensions.bottom - dimensions.top,
     }
-    this.console.log(dimensions);
+    console.log(dimensions);
     let displayId = WhichDisplay(dimensions.left, dimensions.top);
-    this.console.log('displayId => ' + displayId, "\nDisplayData:\n", this.displayData[displayId]);
+    console.log('displayId => ' + displayId, "\nDisplayData:\n", this.displayData[displayId]);
 }
 
 
@@ -136,14 +135,14 @@ exports.vertical = (parameters) => {
         width : (dimensions.right - dimensions.left),
         height : dimensions.bottom - dimensions.top,
     }
-    this.console.log(dimensions);
+    console.log(dimensions);
     let displayId = WhichDisplay(dimensions.left, dimensions.top);
-    this.console.log('displayId => ' + displayId, "\nDisplayData:\n", this.displayData[displayId]);
+    console.log('displayId => ' + displayId, "\nDisplayData:\n", this.displayData[displayId]);
 
     let display = this.displayData[displayId];
     let scaledWorkArea = this.GetScaledWorkArea(display.workArea, display.scaleFactor);
 
-    this.console.log(parameters);
+    console.log(parameters);
 
 
     if (parameters == 'up') {
@@ -182,7 +181,7 @@ exports.percentWidth = (parameters) => {
 
     const current = Window.getForeground();
 
-    this.console.log("[Title=" + current.getTitle() + "] Set Width Percent => " + (amount * 100) + "%");
+    console.log("[Title=" + current.getTitle() + "] Set Width Percent => " + (amount * 100) + "%");
 
     GetDisplayData();
 
@@ -191,9 +190,9 @@ exports.percentWidth = (parameters) => {
         width : (dimensions.right - dimensions.left),
         height : dimensions.bottom - dimensions.top,
     }
-    this.console.log(dimensions);
+    console.log(dimensions);
     let displayId = WhichDisplay(dimensions.left, dimensions.top);
-    this.console.log('displayId => ' + displayId, "\nDisplayData:\n", this.displayData[displayId]);
+    console.log('displayId => ' + displayId, "\nDisplayData:\n", this.displayData[displayId]);
 
     let display = this.displayData[displayId];
     let scaledWorkArea = this.GetScaledWorkArea(display.workArea, display.scaleFactor);
@@ -209,7 +208,7 @@ exports.percentWidth = (parameters) => {
 
             let zoneEndPointId = (i+1);
 
-            this.console.log("Is this valid ZoneId = " + zoneEndPointId);
+            console.log("Is this valid ZoneId = " + zoneEndPointId);
 
             if(zoneEndPointId >= parameters.position.length) {
                 zoneEndPointId = 0;
@@ -218,20 +217,20 @@ exports.percentWidth = (parameters) => {
                 zoneEndPoint = scaledWorkArea.x + Math.round(scaledWorkArea.width*parameters.position[zoneEndPointId])
             };
 
-            this.console.log("SetZoneId = " + zoneEndPointId);
+            console.log("SetZoneId = " + zoneEndPointId);
 
             if(
                 dimensions.left == scaledWorkArea.x + Math.round(scaledWorkArea.width*parameters.position[i])
             ) {
                 
                 let newId = (i+1);
-                this.console.log("Is this valid ZoneId = " + newId);
+                console.log("Is this valid ZoneId = " + newId);
 
                 if(newId >= parameters.position.length) {
                     newId = 0;
                 };
     
-                this.console.log("Move To Next Zone! ZoneId = " + newId);
+                console.log("Move To Next Zone! ZoneId = " + newId);
     
                 leftPosition = scaledWorkArea.x + Math.round((scaledWorkArea.width*parameters.position[newId]))
                 break;
@@ -239,7 +238,7 @@ exports.percentWidth = (parameters) => {
                 dimensions.left >= scaledWorkArea.x + Math.round(scaledWorkArea.width*parameters.position[i]) &&
                 dimensions.left < zoneEndPoint
             ) {
-                this.console.log("This Zone!");
+                console.log("This Zone!");
                 leftPosition = scaledWorkArea.x + Math.round(i*(scaledWorkArea.width*amount));
                 break;
             } else {
@@ -256,22 +255,22 @@ exports.percentWidth = (parameters) => {
         let leftPosition = dimensions.left;
 
         for (let i = 0; i <= maxZones; i++){
-            this.console.log("ZoneId" + i + "/" + maxZones);
+            console.log("ZoneId" + i + "/" + maxZones);
     
-            this.console.log(dimensions.left, scaledWorkArea.x + Math.round(i*(scaledWorkArea.width*amount)), (dimensions.left >= scaledWorkArea.x + Math.round(i*(scaledWorkArea.width*amount)))?'true':'false');
-            this.console.log(dimensions.left, scaledWorkArea.x + Math.round((i+1)*(scaledWorkArea.width*amount)), (dimensions.left <= scaledWorkArea.x + Math.round((i+1)*(scaledWorkArea.width*amount)))?'true':'false');
+            console.log(dimensions.left, scaledWorkArea.x + Math.round(i*(scaledWorkArea.width*amount)), (dimensions.left >= scaledWorkArea.x + Math.round(i*(scaledWorkArea.width*amount)))?'true':'false');
+            console.log(dimensions.left, scaledWorkArea.x + Math.round((i+1)*(scaledWorkArea.width*amount)), (dimensions.left <= scaledWorkArea.x + Math.round((i+1)*(scaledWorkArea.width*amount)))?'true':'false');
         
             if(
                 dimensions.left ==  scaledWorkArea.x + Math.round(i*(scaledWorkArea.width*amount))
             ) {
                 
                 let newId = (i+1);
-                this.console.log("Is this valid ZoneId = " + newId);
+                console.log("Is this valid ZoneId = " + newId);
                 if(newId > maxZones) {
                     newId = 0;
                 };
     
-                this.console.log("Move To Next Zone! ZoneId = " + newId);
+                console.log("Move To Next Zone! ZoneId = " + newId);
     
                 leftPosition = scaledWorkArea.x +Math.round((newId)*(scaledWorkArea.width*amount))
                 break;
@@ -279,7 +278,7 @@ exports.percentWidth = (parameters) => {
                 dimensions.left >= scaledWorkArea.x +Math.round(i*(scaledWorkArea.width*amount)) &&
                 dimensions.left < scaledWorkArea.x +Math.round((i+1)*(scaledWorkArea.width*amount))
             ) {
-                this.console.log("This Zone!");
+                console.log("This Zone!");
                 leftPosition = scaledWorkArea.x + Math.round(i*(scaledWorkArea.width*amount));
                 break;
             } else {
@@ -297,7 +296,7 @@ exports.percentWidth = (parameters) => {
         Math.round(scaledWorkArea.width*amount), scaledWorkArea.height, 
         SWP.SHOWWINDOW)
 
-    this.console.log("setPosition",
+    console.log("setPosition",
         leftPosition, scaledWorkArea.y, 
         Math.round(scaledWorkArea.width*amount), scaledWorkArea.height);
 
@@ -316,12 +315,12 @@ exports.GetScaledWorkArea = (workArea, scaleFactor) => {
     return scaledWorkArea;
 }
 
-exports.init = (console) => {
-    this.console = console;
+exports.init = () => {
+
 
     GetDisplayData();
 
-    osShortcuts.init(this.console,false);
+    osShortcuts.init(false);
 
     osShortcuts.setShortcut([3675, 61003], this.snap, 'Left');
     osShortcuts.setShortcut([3675, 61005], this.snap, 'Right');
@@ -419,7 +418,7 @@ exports.init = (console) => {
 
 
 
-    console.logProcessComplete("Window Controller Initialized.");
+    console.log("Window Controller Initialized.");
 
 
 }
