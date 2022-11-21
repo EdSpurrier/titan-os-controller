@@ -1,0 +1,53 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    background: rgb(240, 240, 240);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.button .button-icon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 50px;
+    width: 50px;
+    transition: 0.5s;
+}
+
+.button .cover {
+    z-index: 10;
+    top: -1px;
+    left: -1px;
+    opacity: 0;
+    height: 50px;
+    width: 50px;
+}
+
+.button .background {
+    z-index: 5;
+    top: 0;
+    left: 0;
+    height: 50px;
+    width: 50px;
+}
+
+.button:hover .button-icon.background {
+    opacity: 0;
+}
+
+.button:hover .button-icon.cover {
+    opacity: 1;
+}
+
+
+.button.active .button-icon.cover {
+    opacity: 1;
+}

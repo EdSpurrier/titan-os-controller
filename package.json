@@ -1,5 +1,5 @@
 {
-  "name": "os-input",
+  "name": "os-controller",
   "version": "1.0.1",
   "description": "",
   "main": "os-controller/main.js",
@@ -23,6 +23,7 @@
   },
   "build": {
     "win": {
+      "icon": "./os-controller/icons/titan.png",
       "target": [
         {
           "target": "portable",

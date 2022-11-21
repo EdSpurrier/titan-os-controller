@@ -1,24 +1,20 @@
 'use strict';
 
-const { app, BrowserWindow, Tray, Menu } = require('electron')
+const { app, BrowserWindow} = require('electron')
 const path = require('path')
-
 const windowController = require('./components/window-controller');
-
-
-var useWindow = true;
-
 
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         x: 0,
-        y: 0,
-        width: 100,
-        height: 100,
+        y: 750,
+        width: 70,
+        height: 250,
         title: "Zone Control",
-        frame: true,
+        frame: false,
         alwaysOnTop: true,
+        transparent: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
@@ -32,53 +28,15 @@ const createWindow = () => {
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
 
-
-    
-    //  tray is declared out to prevent garbage collection
-    //  https://www.electronjs.org/docs/faq#my-apps-windowtray-disappeared-after-a-few-minutes
-    let tray = null;
-    mainWindow.on('minimize', () => {
-        if (tray) { return mainWindow.hide(); }
-        //  tray documentation at - https://github.com/electron/electron/blob/main/docs/api/menu-item.md
-        tray = new Tray('icons/titan.png');
-        const template = [
-            {
-                label: 'CodeSpeedy',
-                icon: 'icons/titan.png',
-                enabled: false,
-            },
-            {
-                type: 'separator',
-            },
-            {
-                label: 'Show App', click: function () {
-                    mainWindow.show();
-                },
-            },
-            {
-                label: 'Quit', click: function () {
-                    mainWindow.close();
-                },
-            },
-        ];
-        const contextMenu = Menu.buildFromTemplate(template);
-        tray.setContextMenu(contextMenu);
-        tray.setToolTip('CodeSpeedy');
-        mainWindow.hide();
-    })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+// This method will be called when Electron has finished988428
+// initialization and is ready to create browser windows.7766
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
 
     windowController.init();
     
-    
-    if(!useWindow) {
-        return;
-    }
 
     createWindow()
 
