@@ -14,13 +14,19 @@ const createWindow = () => {
         title: "Zone Control",
         frame: false,
         alwaysOnTop: true,
-        transparent: true,
+        transparent: false,
+        setResizable: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
             contextIsolation: false
         },
     })
+
+    mainWindow.unmaximize();
+    mainWindow.setResizable(false);
+    mainWindow.on('maximize', () => mainWindow.unmaximize());
+    mainWindow.setFullScreenable(false);
 
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'src/index.html'))

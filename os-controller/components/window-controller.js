@@ -121,9 +121,9 @@ exports.snap = (direction) => {
     console.log('displayId => ' + displayId, "\nDisplayData:\n", this.displayData[displayId]);
 }
 
+6555
 
-
-
+88828
 
 exports.vertical = (parameters) => {
 
@@ -324,6 +324,17 @@ exports.init = () => {
 
     osShortcuts.setShortcut([3675, 61003], this.snap, 'Left');
     osShortcuts.setShortcut([3675, 61005], this.snap, 'Right');
+
+
+    //  1 = 100%;
+    osShortcuts.setShortcut([3675, 79], this.percentWidth, {
+        size: 1,
+        position: [0]
+    });
+    osShortcuts.setShortcut([3675, 3663], this.percentWidth, {
+        size: 1,
+        position: [0]
+    });
 
     //  3 = 33%;
     osShortcuts.setShortcut([3675, 81], this.percentWidth, {
